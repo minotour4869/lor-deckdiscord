@@ -1,18 +1,12 @@
-import lor_deckcodes
 from lor_deckcodes import LoRDeck, CardCodeAndCount
 
-class Deck():
-    def __init__(self, deck=[], code=''):
-        self.deck = deck
-        self.code = code
+class UserDeck():
+    def __init__(self, deckcode = None, name = "Unnamed Deck"):
+        self.name = name
+        self.deck = []
+        self.import_deck(deckcode)
 
-    def add_card(self, id, amount):
-        for _ in range(amount): self.deck.append(id)
-
-    def _encode(self):
-        lordeck = LoRDeck(deck)
-        return lordeck.encode()
-
-    def _decode(self):
-        lordeck = LoRDeck.from_deckcode(self.code)
-        self.deck = self.list(lordeck)
+    def import_deck(self, deckcode = None):
+        if (deckcode is not None):
+            self.deck = list(LoRDeck.from_deckcode(deckcode))
+        else: self.deck = []

@@ -1,36 +1,44 @@
-import os, discord
-from dotenv import load_dotenv
+import os, discord, dotenv, json
+from pathlib import Path
+from discord.errors import DiscordException
 from discord.ext import commands
+from deck import UserDeck
 
-load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
-GUILD = os.getenv('DISCORD_GUILD')
+dotenv.load_dotenv()
+token = os.getenv('DISCORD_TOKEN')
+bot = commands.Bot(command_prefix='!')
+base = Path("Data")
 
-client = discord.Client()
+def write_json(user, deck, deckname):
+    json_path = base/f"{user}.json"
+    base.mkdir(exist_ok=True)
+    data = {
+        "deck": deck,
+        "deckname": deckname
+    }
+    json_path.write_text(json.dumps(data))
 
-@client.event
+@bot.event
 async def on_ready():
-    for guild in client.guilds:
-        if guild.name == GUILD:
-            break
-    print(
-        f'{client.user} is connected to the following guild:\n'
-        f'{guild.name}(id: {guild.id})'
-    )
+    print(f"Yawn, {bot.user} is awaken!")
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-    # if message.content == 'raise-exception':
-    #     raise discord.DiscordException
-
-@client.event
-async def on_error(event, *args, **kwargs):
-    with open('err.log', 'a') as f:
-        if event == 'on_message':
-            f.write(f'Unhandled message: {args[0]}\n')
+@bot.command(aliases=['deck', 'd'])
+async def _deck(ctx, *arg):
+    if (len(arg)):
+        if (arg[0] == "add"):
+            deckcode = arg[1]
+            name = arg[2]
+            try:
+                deck = UserDeck(deckcode, name)
+                write_json(ctx.author.name, deck.deck, deck.name)
+                await ctx.send(f":white_check_mark: Imported new deck: {deck.name}.")
+            except Exception as err:
+                await ctx.send(f":x: Import deck failed!\nError: {str(err)}")
+                return
         else:
-            raise
+            await ctx.send(":x: Invalid command, please try again...")
+            raise DiscordException
+    else: 
+        pass
 
-client.run(TOKEN)
+bot.run(token)
