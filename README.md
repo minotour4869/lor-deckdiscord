@@ -7,6 +7,6 @@ B2: Tạo một file `.env` vào trong folder `Ver2.0`, trong đó file có dạ
 
 `DISCORD_TOKEN=<token_bot>`
 
-B3: Chạy trong cmd `py client.py`, chờ đợi và sử dụng nhé :3
+B3: Chạy trong cmd `py -m pip install -r req.txt` và `py client.py`, chờ đợi và sử dụng nhé :3
 
 Bot trong giai đoạn thử nghiệm, còn nhiều bug và lỗi, mong mọi người thông cảm và đóng góp để mình hoàn thành bot nhé.
