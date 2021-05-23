@@ -3,6 +3,7 @@
 Một con bot (nhảm nhí) trong giai đoạn học tập python và bot, dùng để lấy thông tin một card hoặc một deck (sắp có)
 
 B1: Cài đặt python, download hoặc clone git
+
 B2: Tạo một file `.env` vào trong folder `Ver2.0`, trong đó file có dạng:
 
 `DISCORD_TOKEN=<token_bot>`
