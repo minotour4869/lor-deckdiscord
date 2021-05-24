@@ -4,7 +4,7 @@ Một con bot (nhảm nhí) trong giai đoạn học tập python và bot, dùng
 
 B1: Cài đặt python, download hoặc clone git
 
-B2: Tạo một file `.env` vào trong folder `Ver2.0`, trong đó file có dạng:
+B2: Tạo một file `.env` vào trong folder chính, trong đó file có dạng:
 
 `DISCORD_TOKEN=<token_bot>`
 
