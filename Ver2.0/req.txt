@@ -1,4 +1,0 @@
-discord
-discord.py
-python_dotenv
-lor_deckcodes
