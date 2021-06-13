@@ -8,6 +8,6 @@ B2: Tạo một file `.env` vào trong folder chính, trong đó file có dạng
 
 `DISCORD_TOKEN=<token_bot>`
 
-B3: Chạy trong cmd `py -m pip install -r req.txt` (một lần đầu khi mới cài python, có thể dùng `py -m pip freeze` để kiểm tra các library hiện có để cài thêm) và `py client.py`, chờ đợi và sử dụng nhé :3
+B3: Chạy trong cmd `py -m pip install -r requirements.txt` (một lần đầu khi mới cài python, có thể dùng `py -m pip freeze` để kiểm tra các library hiện có để cài thêm) và `py client.py`, chờ đợi và sử dụng nhé :3
 
 Bot trong giai đoạn thử nghiệm, còn nhiều bug và lỗi, mong mọi người thông cảm và đóng góp để mình hoàn thành bot nhé.
