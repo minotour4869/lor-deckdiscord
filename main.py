@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from lor_deckcodes import LoRDeck, CardCodeAndCount
 from datetime import datetime
 import asyncio
+import random
 
 icon_link = ""
 
@@ -19,7 +20,7 @@ class Card():
 
     def find_card(self):
         for v in range(4):
-            with open(f"data\en_us\set{v + 1}.json", "r", encoding = "utf8") as f:
+            with open(f"data/en_us/set{v + 1}.json", "r", encoding = "utf8") as f:
                 data = json.load(f)
 
             for card in data:
@@ -27,7 +28,7 @@ class Card():
                     # print(f'Found a card: {card["cardCode"]}')
                     self.data = card
                     global icon_link
-                    with open("data\en_us\globals.json", "r", encoding = "utf8") as f:
+                    with open("data/en_us/globals.json", "r", encoding = "utf8") as f:
                         global_info = json.load(f)
 
                     for region in global_info["regions"]:
@@ -44,7 +45,7 @@ class Card():
 
     def find_data(self, info):
         for v in range(4):
-            with open(f"data\en_us\set{v + 1}.json", "r", encoding = "utf8") as f:
+            with open(f"data/en_us/set{v + 1}.json", "r", encoding = "utf8") as f:
                 data = json.load(f)
 
             for card in data:
@@ -59,7 +60,7 @@ class Card():
         card_data = self.find_data(self.reference[self.curid - 1])
         # print(card_data["name"])
 
-        with open("data\en_us\color.json", "r", encoding = "utf8") as f:
+        with open("data/en_us/color.json", "r", encoding = "utf8") as f:
             color = json.load(f)
         
         embed = discord.Embed(description = f'_{card_data["flavorText"]}_', color = int(f'0x{color[card_data["region"]]}', 16))
@@ -95,7 +96,7 @@ class Deck():
                 self.region.append(card.data["region"])
 
     def get_embed(self):
-        with open("data\\rarity.json", "r", encoding = "utf8") as f:
+        with open("data/rarity.json", "r", encoding = "utf8") as f:
             ra = json.load(f)
 
         region_text = " - ".join(self.region[:])
@@ -211,6 +212,20 @@ async def en_us(ctx, *args):
     # print(name)
     deck = Deck(deckcode, ctx.message.author, name)
     await ctx.send(embed = deck.get_embed())
+
+@bot.command(name = 'tung')
+async def tung(ctx):
+    GUILD_NBS = 808899573803909141
+    id_tung = 701242005191262228
+    if (ctx.guild.id != GUILD_NBS):
+        await ctx.send(":x: Bạn phải ở trong Discord NBS để chửi Tứng :>")
+        return
+    sentences = [
+        "tứng ngu",
+        "khỉ đầu chó"
+    ]
+    if (ctx.author.id == id_tung): await ctx.send("Ô, Tứng dùng cmd này à, vậy thì...")
+    await ctx.send(f"<@{id_tung}> {random.choice(sentences)} :>")
 
 # @bot.event
 # async def on_command_error(ctx, exc):
