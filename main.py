@@ -6,8 +6,6 @@ from datetime import datetime
 import asyncio
 import random
 
-icon_link = ""
-
 class Card():
     def __init__(self, info):
         self.data = None
@@ -15,6 +13,7 @@ class Card():
         self.reference = []
         self.state = self.find_card()
         self.curid = 1
+        self.icon_link = ""
 
     # def find_reference(self)
 
@@ -27,13 +26,12 @@ class Card():
                 if (card["cardCode"].lower() == self.info.lower() or card["name"].lower() == self.info.lower()):
                     # print(f'Found a card: {card["cardCode"]}')
                     self.data = card
-                    global icon_link
                     with open("data/en_us/globals.json", "r", encoding = "utf8") as f:
                         global_info = json.load(f)
 
                     for region in global_info["regions"]:
                         if (region["name"] == card["region"]):
-                            icon_link = region["iconAbsolutePath"]
+                            self.icon_link = region["iconAbsolutePath"]
                             break
                     
                     self.reference.append(card["cardCode"])
@@ -50,12 +48,16 @@ class Card():
 
             for card in data:
                 if (card["cardCode"].lower() == info.lower() or card["name"].lower() == info.lower()):
-                    # print(f'Found a card: {card["cardCode"]}')
+                    with open("data/en_us/globals.json", "r", encoding = "utf8") as f:                                       global_info = json.load(f)
+                    for region in global_info["regions"]:
+                        if (region["name"] == card["region"]):
+                            self.icon_link = region["iconAbsolutePath"]
+                            break
                     return card
 
     def get_embed(self):
-        global icon_link
         # if (self.data is None): return None
+        # print(self.icon_link)
 
         card_data = self.find_data(self.reference[self.curid - 1])
         # print(card_data["name"])
@@ -64,7 +66,7 @@ class Card():
             color = json.load(f)
         
         embed = discord.Embed(description = f'_{card_data["flavorText"]}_', color = int(f'0x{color[card_data["region"]]}', 16))
-        embed.set_author(name = f'({card_data["cost"]}) {card_data["name"]}', url = f'https://lor.mobalytics.gg/cards/{card_data["cardCode"]}', icon_url = icon_link)
+        embed.set_author(name = f'({card_data["cost"]}) {card_data["name"]}', url = f'https://lor.mobalytics.gg/cards/{card_data["cardCode"]}', icon_url = self.icon_link)
         embed.set_thumbnail(url=card_data["assets"][0]["gameAbsolutePath"])
         embed.set_footer(text = f'{self.curid}/{len(self.reference)}')
         if (card_data["type"] == 'Spell'):
